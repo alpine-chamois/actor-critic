@@ -1,0 +1,5 @@
+torch~=1.13.0
+gym~=0.26.2
+matplotlib~=3.6.2
+pygame~=2.1.2
+numpy~=1.23.4
