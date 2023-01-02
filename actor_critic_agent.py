@@ -14,10 +14,10 @@ class ActorCriticAgent(nn.Module):
         self.input_layer = nn.Linear(self.OBSERVATION_SPACE_SIZE, 64)
         self.hidden_layer_1 = nn.Linear(64, 128)
 
-        # Actor (4/25/50/2)
+        # Actor (4/64/128/2)
         self.actor_output_layer = nn.Linear(128, self.ACTION_SPACE_SIZE)
 
-        # Critic (4/25/50/25/1)
+        # Critic (4/64/128/64/1)
         self.hidden_layer_2 = nn.Linear(128, 64)
         self.critic_output_layer = nn.Linear(64, 1)
 
