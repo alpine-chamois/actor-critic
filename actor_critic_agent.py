@@ -11,15 +11,15 @@ class ActorCriticAgent(nn.Module):
     def __init__(self) -> None:
         super(ActorCriticAgent, self).__init__()
 
-        self.input_layer = nn.Linear(self.OBSERVATION_SPACE_SIZE, 25)
-        self.hidden_layer_1 = nn.Linear(25, 50)
+        self.input_layer = nn.Linear(self.OBSERVATION_SPACE_SIZE, 64)
+        self.hidden_layer_1 = nn.Linear(64, 128)
 
         # Actor (4/25/50/2)
-        self.actor_output_layer = nn.Linear(50, self.ACTION_SPACE_SIZE)
+        self.actor_output_layer = nn.Linear(128, self.ACTION_SPACE_SIZE)
 
         # Critic (4/25/50/25/1)
-        self.hidden_layer_2 = nn.Linear(50, 25)
-        self.critic_output_layer = nn.Linear(25, 1)
+        self.hidden_layer_2 = nn.Linear(128, 64)
+        self.critic_output_layer = nn.Linear(64, 1)
 
     # Forward propagation
     def forward(self, x: Tensor) -> tuple[Tensor, Tensor]:
