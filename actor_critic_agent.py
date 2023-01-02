@@ -1,15 +1,14 @@
 import torch
-from torch import nn
+from torch import nn, Tensor
 
 
 # Two-headed neural network for actor (policy) and critic (value) functions
 class ActorCriticAgent(nn.Module):
-
-    OBSERVATION_SPACE_SIZE = 4  # Cart position, cart velocity, pole angle and pole angular velocity
-    ACTION_SPACE_SIZE = 2  # Push cart left and push cart right
+    OBSERVATION_SPACE_SIZE: int = 4  # Cart position, cart velocity, pole angle and pole angular velocity
+    ACTION_SPACE_SIZE: int = 2  # Push cart left and push cart right
 
     # Configure layers
-    def __init__(self):
+    def __init__(self) -> None:
         super(ActorCriticAgent, self).__init__()
 
         self.input_layer = nn.Linear(self.OBSERVATION_SPACE_SIZE, 25)
@@ -23,8 +22,7 @@ class ActorCriticAgent(nn.Module):
         self.critic_output_layer = nn.Linear(25, 1)
 
     # Forward propagation
-    def forward(self, x):
-
+    def forward(self, x: Tensor) -> tuple[Tensor, Tensor]:
         # Normalise the input so the state values are all within the same range
         normalised_input = nn.functional.normalize(x, dim=0)
 

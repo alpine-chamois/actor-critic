@@ -2,38 +2,39 @@ import math
 import sys
 import gym
 import matplotlib.pyplot as pyplot
+import numpy
 # noinspection PyUnresolvedReferences
 import pygame  # Required for OpenAI Gym rendering
 import torch
-import numpy
-
+from torch import nn, Tensor
 from actor_critic_agent import ActorCriticAgent
 
 # Training and evaluation parameters
-EPISODES = 200
-LEARNING_STEPS = 10
-LEARNING_RATE = 0.001
-REWARD_DISCOUNT_FACTOR = 0.95
-CRITIC_LOSS_SCALING = 0.1
-MODEL_FILE = 'a2c.mdl'
-TRAIN_MODEL = True
-EVALUATION_STEPS = 500
-AVERAGING_WINDOW = round(EPISODES / 10)
-TRAINING_OBSERVATION_NOISE_RATIO = 0.0
-EVALUATION_OBSERVATION_NOISE_RATIO = 0.5
+EPISODES: int = 200
+LEARNING_STEPS: int = 10
+LEARNING_RATE: float = 0.001
+REWARD_DISCOUNT_FACTOR: float = 0.95
+CRITIC_LOSS_SCALING: float = 0.1
+MODEL_FILE: str = 'a2c.mdl'
+TRAIN_MODEL: bool = True
+EVALUATION_STEPS: int = 500
+AVERAGING_WINDOW: int = round(EPISODES / 10)
+TRAINING_OBSERVATION_NOISE_RATIO: float = 0.0  # Perfect training
+EVALUATION_OBSERVATION_NOISE_RATIO: float = 0.1  # Realistic evaluation
 
 
 # Training loop
-def train():
+def train() -> None:
     # Create environment and agent
-    environment = gym.make('CartPole-v1')
-    agent = ActorCriticAgent()
+    environment: gym.Env = gym.make('CartPole-v1')
+    agent: nn.Module = ActorCriticAgent()
 
     # Create a gradient descent optimiser with a learning rate of 0.001
-    optimizer = torch.optim.Adam(agent.parameters(), lr=LEARNING_RATE)
+    optimizer: torch.optim.Optimizer = torch.optim.Adam(agent.parameters(), lr=LEARNING_RATE)
 
     # Store episode metrics
-    episode_durations, losses = [], []
+    episode_durations: list[int] = []
+    losses: list[float] = []
 
     for episode in range(EPISODES):
 
@@ -44,10 +45,14 @@ def train():
         observation, info = environment.reset()
 
         # Initialise episode data
-        terminated, truncated = False, False
-        values, log_action_probabilities, rewards = [], [], []
-        episode_duration, step = 0, 0
-        latest_value = torch.Tensor([0])
+        terminated: bool = False
+        truncated: bool = False
+        values: list[Tensor] = []
+        log_action_probabilities: list[Tensor] = []
+        rewards: list[int] = []
+        episode_duration: int = 0
+        step: int = 0
+        latest_value: Tensor = torch.Tensor([0])
 
         while not terminated and not truncated:
 
@@ -103,31 +108,33 @@ def train():
 
 
 # Optimise the agent
-def optimise(agent, optimizer, log_action_probabilities, rewards, values, latest_value):
+def optimise(agent: nn.Module, optimizer: torch.optim.Optimizer, log_action_probabilities: list[Tensor],
+             rewards: list[int], values: list[Tensor], latest_value: Tensor) -> float:
     # Reverse the episode data so most recent data comes first in 1D tensors
-    rewards = torch.Tensor(rewards).flip(dims=(0,)).view(-1)
-    log_action_probabilities = torch.stack(log_action_probabilities).flip(dims=(0,)).view(-1)
-    values = torch.stack(values).flip(dims=(0,)).view(-1)
+    rewards_: Tensor = torch.Tensor(rewards).flip(dims=(0,)).view(-1)
+    log_action_probabilities_: Tensor = torch.stack(log_action_probabilities).flip(dims=(0,)).view(-1)
+    values_: Tensor = torch.stack(values).flip(dims=(0,)).view(-1)
 
     # Calculate weighted rewards
-    returns = []
+    returns: list[Tensor] = []
     # Bootstrap the latest value
-    return_ = latest_value.detach()  # Detach to stop double backpropagation
-    for reward in range(rewards.shape[0]):
+    return_: Tensor = latest_value.detach()  # Detach to stop double backpropagation
+    for reward in range(rewards_.shape[0]):
         # Discount older rewards
-        return_ = rewards[reward] + REWARD_DISCOUNT_FACTOR * return_
+        return_ = rewards_[reward] + REWARD_DISCOUNT_FACTOR * return_
         returns.append(return_)
     # Make tensor 1D
-    returns = torch.stack(returns).view(-1)
+    returns_: Tensor = torch.stack(returns).view(-1)
     # Normalise rewards between -1 and 1
-    returns = torch.nn.functional.normalize(returns, dim=0)
+    returns_ = torch.nn.functional.normalize(returns_, dim=0)
 
     # Calculate advantage and loss
-    advantage = returns - values.detach()  # Detach to stop double backpropagation
-    actor_loss = -1 * log_action_probabilities * advantage
-    critic_loss = torch.pow(values - returns, 2)
+    advantage: Tensor = returns_ - values_.detach()  # Detach to stop double backpropagation
+    actor_loss: Tensor = -1 * log_action_probabilities_ * advantage
+    critic_loss: Tensor = torch.pow(values_ - returns_, 2)
+
     # Scale down the critic loss because we want the actor to learn faster than the critic
-    loss = actor_loss.sum() + CRITIC_LOSS_SCALING * critic_loss.sum()
+    loss: Tensor = actor_loss.sum() + CRITIC_LOSS_SCALING * critic_loss.sum()
 
     # Calculate gradients
     agent.zero_grad()
@@ -141,10 +148,10 @@ def optimise(agent, optimizer, log_action_probabilities, rewards, values, latest
 
 
 # Evaluation loop
-def evaluate():
+def evaluate() -> None:
     # Create environment and agent
-    environment = gym.make('CartPole-v1', render_mode='human')
-    agent = ActorCriticAgent()
+    environment: gym.Env = gym.make('CartPole-v1', render_mode='human')
+    agent: nn.Module = ActorCriticAgent()
 
     # Load the trained agent parameters
     agent.load_state_dict(torch.load(MODEL_FILE))
@@ -156,8 +163,8 @@ def evaluate():
     observation, info = environment.reset()
 
     # Play the game
-    terminated = False
-    step = 0
+    terminated: bool = False
+    step: int = 0
     while not terminated and step < EVALUATION_STEPS:
         step += 1
 
@@ -180,8 +187,8 @@ def evaluate():
 
 
 # Add observation noise
-def add_observation_noise(observation, noise_ratio):
-    noisy_observation = []
+def add_observation_noise(observation: numpy.ndarray, noise_ratio: float) -> numpy.array:
+    noisy_observation: list[float] = []
     for state in observation:
         noise = numpy.random.normal(0.0, math.fabs(state * noise_ratio))
         noisy_observation.append(state + noise)
@@ -189,14 +196,14 @@ def add_observation_noise(observation, noise_ratio):
 
 
 # Print progress to terminal
-def print_training_progress(episode):
-    percentage = math.ceil(((episode + 1) / EPISODES) * 100)
+def print_training_progress(episode: int) -> None:
+    percentage: int = math.ceil(((episode + 1) / EPISODES) * 100)
     sys.stdout.write('\rTraining (' + str(percentage) + '%)')
     sys.stdout.flush()
 
 
 # Plot training metrics
-def plot_training_metrics(episode_durations, losses):
+def plot_training_metrics(episode_durations: list[int], losses: list[float]) -> None:
     pyplot.suptitle('Training Metrics')
     pyplot.subplot(1, 2, 1)
     pyplot.plot(average_metrics(episode_durations), color='green')
@@ -210,8 +217,8 @@ def plot_training_metrics(episode_durations, losses):
 
 
 # Average metrics for plotting
-def average_metrics(metrics):
-    average = []
+def average_metrics(metrics: list[[int | float]]) -> list[numpy.ndarray]:
+    average: list[any] = []
     for index in range(AVERAGING_WINDOW - 1):
         average.append(numpy.nan)
     for index in range(len(metrics) - AVERAGING_WINDOW + 1):
@@ -221,6 +228,7 @@ def average_metrics(metrics):
 
 # Main function
 if __name__ == '__main__':
+
     if TRAIN_MODEL is True:
         train()
     evaluate()
