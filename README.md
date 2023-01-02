@@ -1,6 +1,6 @@
 ## Advantage Actor-Critic (A2C) Reinforcement Learning (RL) Agent
 
-This A2C RL agent is based on the DA2C agent in [Deep Reinforcement Learning in Action](https://www.manning.com/books/deep-reinforcement-learning-in-action), but without distributed processing.
+This A2C RL agent is based on the DA2C agent in [Deep Reinforcement Learning in Action](https://www.manning.com/books/deep-reinforcement-learning-in-action), but with more neurons and without distributed processing.
 
 A2C agents combine a Deep Q-network (DQN) like that used by [DeepMind](https://www.deepmind.com/publications/playing-atari-with-deep-reinforcement-learning) with a policy network like REINFORCE. They provide direct sampling of actions from a distribution (like a policy network) whilst also supporting rapid online learning (like a DQN, but without the need for experience replay or a target network). 
 
