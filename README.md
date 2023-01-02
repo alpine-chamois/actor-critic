@@ -16,11 +16,11 @@ The agent is a two-headed feed-forward neural network:
 
 _Deep Reinforcement Learning in Action, Manning, 2020_
 
-Here the agent is being trained to play Cart Pole. The Cart Pole environment truncates training at 500 steps, so this is the maximum achievable episode duration.
+Here the agent is being trained to play Cart Pole until it completes the game.
 
 ![Training metrics](images/training-metrics.png)
 
-And here the trained agent is playing the game unaided:
+And here the trained agent is playing the game unaided with 10% observation noise:
 
 ![Evaluations](images/evaluation.png)
 

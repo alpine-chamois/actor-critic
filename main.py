@@ -1,5 +1,6 @@
 import math
 import sys
+
 import gym
 import matplotlib.pyplot as pyplot
 import numpy
@@ -7,18 +8,19 @@ import numpy
 import pygame  # Required for OpenAI Gym rendering
 import torch
 from torch import nn, Tensor
+
 from actor_critic_agent import ActorCriticAgent
 
 # Training and evaluation parameters
-EPISODES: int = 200
+GAME: str = 'CartPole-v1'
 LEARNING_STEPS: int = 10
 LEARNING_RATE: float = 0.001
 REWARD_DISCOUNT_FACTOR: float = 0.95
 CRITIC_LOSS_SCALING: float = 0.1
 MODEL_FILE: str = 'a2c.mdl'
 TRAIN_MODEL: bool = True
-EVALUATION_STEPS: int = 500
-AVERAGING_WINDOW: int = round(EPISODES / 10)
+MAX_EPISODE_DURATION: int = 500
+AVERAGING_WINDOW: int = 10
 TRAINING_OBSERVATION_NOISE_RATIO: float = 0.0  # Perfect training
 EVALUATION_OBSERVATION_NOISE_RATIO: float = 0.1  # Realistic evaluation
 
@@ -26,27 +28,24 @@ EVALUATION_OBSERVATION_NOISE_RATIO: float = 0.1  # Realistic evaluation
 # Training loop
 def train() -> None:
     # Create environment and agent
-    environment: gym.Env = gym.make('CartPole-v1')
+    environment: gym.Env = gym.make(GAME)
     agent: nn.Module = ActorCriticAgent()
 
-    # Create a gradient descent optimiser with a learning rate of 0.001
+    # Create a gradient descent optimiser
     optimizer: torch.optim.Optimizer = torch.optim.Adam(agent.parameters(), lr=LEARNING_RATE)
 
     # Store episode metrics
-    episode_durations: list[int] = []
+    episode_performances: list[int] = []
     losses: list[float] = []
+    truncated: bool = False
 
-    for episode in range(EPISODES):
-
-        # Print training progress
-        print_training_progress(episode)
+    while not truncated:
 
         # Reset the environment and observe initial state
         observation, info = environment.reset()
 
         # Initialise episode data
         terminated: bool = False
-        truncated: bool = False
         values: list[Tensor] = []
         log_action_probabilities: list[Tensor] = []
         rewards: list[int] = []
@@ -98,10 +97,13 @@ def train() -> None:
                 step = 0
 
         # Store the episode length
-        episode_durations.append(episode_duration)
+        episode_performances.append(math.ceil((episode_duration / MAX_EPISODE_DURATION) * 100))
+
+        # Print training progress
+        print_training_progress(episode_performances)
 
     # Plot training metrics
-    plot_training_metrics(episode_durations, losses)
+    plot_training_metrics(episode_performances, losses)
 
     # Save the agent
     torch.save(agent.state_dict(), MODEL_FILE)
@@ -150,7 +152,7 @@ def optimise(agent: nn.Module, optimizer: torch.optim.Optimizer, log_action_prob
 # Evaluation loop
 def evaluate() -> None:
     # Create environment and agent
-    environment: gym.Env = gym.make('CartPole-v1', render_mode='human')
+    environment: gym.Env = gym.make(GAME, render_mode='human')
     agent: nn.Module = ActorCriticAgent()
 
     # Load the trained agent parameters
@@ -163,9 +165,10 @@ def evaluate() -> None:
     observation, info = environment.reset()
 
     # Play the game
+    truncated: bool = False
     terminated: bool = False
     step: int = 0
-    while not terminated and step < EVALUATION_STEPS:
+    while not terminated and not truncated:
         step += 1
 
         # Run the agent
@@ -196,23 +199,24 @@ def add_observation_noise(observation: numpy.ndarray, noise_ratio: float) -> num
 
 
 # Print progress to terminal
-def print_training_progress(episode: int) -> None:
-    percentage: int = math.ceil(((episode + 1) / EPISODES) * 100)
-    sys.stdout.write('\rTraining (' + str(percentage) + '%)')
+def print_training_progress(episode_performances: list[int]) -> None:
+    episodes: int = len(episode_performances)
+    sys.stdout.write('\rLearning to play ' + GAME + ', performance: ' + str(episode_performances[episodes - 1])
+                     + '% after ' + str(episodes) + ' training episodes.')
     sys.stdout.flush()
 
 
 # Plot training metrics
-def plot_training_metrics(episode_durations: list[int], losses: list[float]) -> None:
-    pyplot.suptitle('Training Metrics')
+def plot_training_metrics(episode_performances: list[int], losses: list[float]) -> None:
+    pyplot.suptitle('Training metrics after completing the game for the first time')
     pyplot.subplot(1, 2, 1)
-    pyplot.plot(average_metrics(episode_durations), color='green')
+    pyplot.plot(average_metrics(episode_performances), color='green')
     pyplot.xlabel('Episode')
-    pyplot.ylabel('Duration')
+    pyplot.ylabel('Average performance')
     pyplot.subplot(1, 2, 2)
     pyplot.plot(average_metrics(losses), color='red')
     pyplot.xlabel('Optimisation Step')
-    pyplot.ylabel('Loss')
+    pyplot.ylabel('Average loss')
     pyplot.show()
 
 
