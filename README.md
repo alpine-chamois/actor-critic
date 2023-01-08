@@ -25,8 +25,6 @@ And here the trained agent is playing the game unaided with 10% observation nois
 ![Evaluations](images/evaluation.png)
 
 ### Useful Machine Learning Mastery links:
-[Choosing the number of hidden layers and neurons in a neural network](https://machinelearningmastery.com/how-to-configure-the-number-of-layers-and-nodes-in-a-neural-network/)
-
-[Choosing activation functions for a neural network](https://machinelearningmastery.com/choose-an-activation-function-for-deep-learning/)
-
-[Choosing the learning rate for a neural network](https://machinelearningmastery.com/learning-rate-for-deep-learning-neural-networks/)
+* [Choosing the number of hidden layers and neurons in a neural network](https://machinelearningmastery.com/how-to-configure-the-number-of-layers-and-nodes-in-a-neural-network/)
+* [Choosing activation functions for a neural network](https://machinelearningmastery.com/choose-an-activation-function-for-deep-learning/)
+* [Choosing the learning rate for a neural network](https://machinelearningmastery.com/learning-rate-for-deep-learning-neural-networks/)
