@@ -27,6 +27,9 @@ EVALUATION_OBSERVATION_NOISE_RATIO: float = 0.1  # Realistic evaluation
 
 # Training loop
 def train() -> None:
+    """
+    Train
+    """
     # Create environment and agent
     environment: gym.Env = gym.make(GAME)
     agent: nn.Module = ActorCriticAgent()
@@ -112,6 +115,16 @@ def train() -> None:
 # Optimise the agent
 def optimise(agent: nn.Module, optimizer: torch.optim.Optimizer, log_action_probabilities: list[Tensor],
              rewards: list[int], values: list[Tensor], latest_value: Tensor) -> float:
+    """
+    Optimise
+    :param agent: the agent
+    :param optimizer: the optimiser
+    :param log_action_probabilities: the log action probabilities
+    :param rewards: the rewards
+    :param values: the values
+    :param latest_value: the latest value
+    :return: the loss
+    """
     # Reverse the episode data so most recent data comes first in 1D tensors
     rewards_: Tensor = torch.Tensor(rewards).flip(dims=(0,)).view(-1)
     log_action_probabilities_: Tensor = torch.stack(log_action_probabilities).flip(dims=(0,)).view(-1)
@@ -151,6 +164,9 @@ def optimise(agent: nn.Module, optimizer: torch.optim.Optimizer, log_action_prob
 
 # Evaluation loop
 def evaluate() -> None:
+    """
+    Evaluate agent
+    """
     # Create environment and agent
     environment: gym.Env = gym.make(GAME, render_mode='human')
     agent: nn.Module = ActorCriticAgent()
@@ -191,6 +207,12 @@ def evaluate() -> None:
 
 # Add observation noise
 def add_observation_noise(observation: numpy.ndarray, noise_ratio: float) -> numpy.array:
+    """
+    Add observation noise
+    :param observation: the observation
+    :param noise_ratio: the noise ratio
+    :return: observations with noise
+    """
     noisy_observation: list[float] = []
     for state in observation:
         noise = numpy.random.normal(0.0, math.fabs(state * noise_ratio))
@@ -200,6 +222,10 @@ def add_observation_noise(observation: numpy.ndarray, noise_ratio: float) -> num
 
 # Print progress to terminal
 def print_training_progress(episode_performances: list[int]) -> None:
+    """
+    Print training progress
+    :param episode_performances: the episode performances
+    """
     episodes: int = len(episode_performances)
     sys.stdout.write('\rLearning to play ' + GAME + ', performance: ' + str(episode_performances[episodes - 1])
                      + '% after ' + str(episodes) + ' training episodes.')
@@ -208,6 +234,11 @@ def print_training_progress(episode_performances: list[int]) -> None:
 
 # Plot training metrics
 def plot_training_metrics(episode_performances: list[int], losses: list[float]) -> None:
+    """
+    Plot training metrics
+    :param episode_performances: the episode performances
+    :param losses: the losses
+    """
     pyplot.suptitle('Training metrics after completing the game for the first time')
     pyplot.subplot(1, 2, 1)
     pyplot.plot(average_metrics(episode_performances), color='green')
@@ -222,6 +253,11 @@ def plot_training_metrics(episode_performances: list[int], losses: list[float]) 
 
 # Average metrics for plotting
 def average_metrics(metrics: list[[int | float]]) -> list[numpy.ndarray]:
+    """
+    Average metrics
+    :param metrics: the metrics
+    :return: averaged metrics
+    """
     average: list[any] = []
     for index in range(AVERAGING_WINDOW - 1):
         average.append(numpy.nan)
