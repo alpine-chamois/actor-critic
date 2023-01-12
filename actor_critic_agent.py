@@ -7,7 +7,6 @@ class ActorCriticAgent(nn.Module):
     OBSERVATION_SPACE_SIZE: int = 4  # Cart position, cart velocity, pole angle and pole angular velocity
     ACTION_SPACE_SIZE: int = 2  # Push cart left and push cart right
 
-    # Configure layers
     def __init__(self) -> None:
         super(ActorCriticAgent, self).__init__()
 
@@ -21,7 +20,6 @@ class ActorCriticAgent(nn.Module):
         self.hidden_layer_2 = nn.Linear(128, 64)
         self.critic_output_layer = nn.Linear(64, 1)
 
-    # Forward propagation
     def forward(self, x: Tensor) -> tuple[Tensor, Tensor]:
         """
         Forward propagation
