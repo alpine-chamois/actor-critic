@@ -25,10 +25,9 @@ TRAINING_OBSERVATION_NOISE_RATIO: float = 0.0  # Perfect training
 EVALUATION_OBSERVATION_NOISE_RATIO: float = 0.1  # Realistic evaluation
 
 
-# Training loop
 def train() -> None:
     """
-    Train
+    Training loop
     """
     # Create environment and agent
     environment: gym.Env = gym.make(GAME)
@@ -112,11 +111,10 @@ def train() -> None:
     torch.save(agent.state_dict(), MODEL_FILE)
 
 
-# Optimise the agent
 def optimise(agent: nn.Module, optimizer: torch.optim.Optimizer, log_action_probabilities: list[Tensor],
              rewards: list[int], values: list[Tensor], latest_value: Tensor) -> float:
     """
-    Optimise
+    Optimise the agent
     :param agent: the agent
     :param optimizer: the optimiser
     :param log_action_probabilities: the log action probabilities
@@ -162,10 +160,9 @@ def optimise(agent: nn.Module, optimizer: torch.optim.Optimizer, log_action_prob
     return loss.detach().numpy()
 
 
-# Evaluation loop
 def evaluate() -> None:
     """
-    Evaluate agent
+    Evaluation loop
     """
     # Create environment and agent
     environment: gym.Env = gym.make(GAME, render_mode='human')
@@ -205,7 +202,6 @@ def evaluate() -> None:
         environment.render()
 
 
-# Add observation noise
 def add_observation_noise(observation: numpy.ndarray, noise_ratio: float) -> numpy.array:
     """
     Add observation noise
@@ -220,10 +216,9 @@ def add_observation_noise(observation: numpy.ndarray, noise_ratio: float) -> num
     return numpy.array(noisy_observation)
 
 
-# Print progress to terminal
 def print_training_progress(episode_performances: list[int]) -> None:
     """
-    Print training progress
+    Print progress to terminal
     :param episode_performances: the episode performances
     """
     episodes: int = len(episode_performances)
@@ -232,7 +227,6 @@ def print_training_progress(episode_performances: list[int]) -> None:
     sys.stdout.flush()
 
 
-# Plot training metrics
 def plot_training_metrics(episode_performances: list[int], losses: list[float]) -> None:
     """
     Plot training metrics
@@ -251,10 +245,9 @@ def plot_training_metrics(episode_performances: list[int], losses: list[float]) 
     pyplot.show()
 
 
-# Average metrics for plotting
 def average_metrics(metrics: list[[int | float]]) -> list[numpy.ndarray]:
     """
-    Average metrics
+    Average metrics for plotting
     :param metrics: the metrics
     :return: averaged metrics
     """
