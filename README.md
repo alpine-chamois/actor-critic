@@ -56,19 +56,23 @@ Although A3C and PPO agents can perform better than A2C agents, they include add
 __Prerequisites:__ Python 3.10 
 
 1. Create a virtual environment:
-```
->python -m venv venv
->venv\Scripts\activate
-```
+    ```
+    >python -m venv venv
+    >venv\Scripts\activate
+    ```
 1. Install wheel:
-```
-(venv) >pip install wheel
-```
+    ```
+    (venv) >pip install wheel
+    ```
+1. Install dependencies:
+    ```
+    pip install -r requirements.txt
+    ```
 1. Install the local package in editable mode:
-```
-(venv) >pip install -e .\src
-```
+    ```
+    (venv) >pip install -e .\src
+    ```
 1. Run the example:
-```
-(venv) >python -m actorcritic --train
-```
+    ```
+    (venv) >python -m actorcritic --train
+    ```
