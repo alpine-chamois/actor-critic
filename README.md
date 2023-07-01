@@ -6,14 +6,12 @@ Here the agent is being trained to play Cart Pole with the same hyperparameters 
 
 ![Training metrics](images/training-metrics.png)
 
-_Generated after training using TensorBoard:_ ```tensorboard --logdir ./a2c_cartpole_tensorboard/```
-
 It learns to play with the same performance in the same number of steps:
 
 ![Evaluations](images/evaluation.png)
 
 ### Stable Baselines links
-[Reinforcement Learning Tips and Tricks](https://stable-baselines3.readthedocs.io/en/master/guide/rl_tips.html).
+* [Reinforcement Learning Tips and Tricks](https://stable-baselines3.readthedocs.io/en/master/guide/rl_tips.html)
 
 ### Getting started (Windows)
 
@@ -40,3 +38,7 @@ __Prerequisites:__ Python 3.10
     ```
     (venv) >python -m actorcritic --train
     ```
+1. View the training metrics on tensorboard:
+   ```
+   (venv) >tensorboard --logdir ./a2c_cartpole_tensorboard/
+   ```
