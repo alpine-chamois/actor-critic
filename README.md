@@ -32,25 +32,6 @@ The A2C agent can be used to play any game as long as the size of the observatio
 
 Although A3C and PPO agents can perform better than A2C agents, they include additional complexity that makes the fundamentals of RL more difficult to understand when looking at the code. This A2C agent is designed to be a reference for how to implement a Deep RL (DRL) agent using [PyTorch](https://pytorch.org/). If you want a PPO agent, I recommend using [the implementation in Stable Baselines 3](https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html). There is a [branch of this repository](https://github.com/alpine-chamois/actor-critic/tree/stable-baselines) that shows how to implement an equivalent A2C agent using Stable Baselines 3, and to convert this agent to a PPO agent, simply replace instances of ```A2C``` with instances of ```PPO```.
 
-### Useful [Machine Learning Mastery](https://machinelearningmastery.com/) links for setting hyperparameters
-* [Choosing the number of hidden layers and neurons in a neural network](https://machinelearningmastery.com/how-to-configure-the-number-of-layers-and-nodes-in-a-neural-network/)
-* [Choosing activation functions for a neural network](https://machinelearningmastery.com/choose-an-activation-function-for-deep-learning/)
-* [Choosing the learning rate for a neural network](https://machinelearningmastery.com/learning-rate-for-deep-learning-neural-networks/)
-
-### [Colin Skow](https://github.com/colinskow)'s excellent reinforcement learning tutorials
-
-* [Bellman Equation Basics for Reinforcement Learning](https://www.youtube.com/watch?v=14BfO5lMiuk)
-* [Bellman Equation Advanced for Reinforcement Learning](https://www.youtube.com/watch?v=aNuOLwojyfg)
-* [Dynamic Programming Tutorial for Reinforcement Learning](https://www.youtube.com/watch?v=aAkFtRxeP7c)
-* [Monte Carlo Reinforcement Learning Tutorial](https://www.youtube.com/watch?v=mMEFFN1H5Cg)
-* [Policy Gradient Methods Tutorial](https://www.youtube.com/watch?v=0c3r5EWeBvo)
-* [Actor Critic (A3C) Tutorial](https://www.youtube.com/watch?v=O5BlozCJBSE)
-* [Continuous Action Space Actor Critic Tutorial](https://www.youtube.com/watch?v=kWHSH2HgbNQ)
-* [Proximal Policy Optimization (PPO) Tutorial](https://www.youtube.com/watch?v=WxQfQW48A4A)
-
-### [Rudy Gilman](https://rudygilman.com/)'s story explaining A2C in terms of animal learning
-* [Intuitive RL: Intro to Advantage-Actor-Critic (A2C)](https://medium.com/hackernoon/intuitive-rl-intro-to-advantage-actor-critic-a2c-4ff545978752)
-
 ### Getting started (Windows)
 
 __Prerequisites:__ Python 3.10 
