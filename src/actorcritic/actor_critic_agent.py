@@ -271,7 +271,8 @@ class ActorCriticAgent(Agent):
         :param episode: the episode
         :param average_cumulative_rewards: the average cumulative rewards
         """
-        sys.stdout.write('\rLearning to play ' + self.game + ', average cumulative reward: ' +
+        sys.stdout.write('\r\x1b[')  # Clear line
+        sys.stdout.write('Learning to play ' + self.game + ', average cumulative reward: ' +
                          str(math.ceil(average_cumulative_rewards[-1])) + '/' + str(self.max_cumulative_reward) +
                          ' after ' + str(episode) + ' training episodes.')
         sys.stdout.flush()
