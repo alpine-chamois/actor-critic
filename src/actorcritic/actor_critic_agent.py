@@ -9,7 +9,6 @@ from stable_baselines3 import A2C
 import stable_baselines3.common.on_policy_algorithm as algorithm
 from stable_baselines3.common.callbacks import BaseCallback, EvalCallback, StopTrainingOnRewardThreshold
 from stable_baselines3.common.monitor import Monitor
-from stable_baselines3.common.vec_env import VecEnv
 
 from actorcritic.agent import Agent
 
@@ -70,15 +69,17 @@ class ActorCriticAgent(Agent):
         # Save the agent
         agent.save(self.model_file)
 
+        # Close the environment
+        environment.close()
+
     def evaluate(self) -> None:
         """
         Evaluation loop
         """
 
         # Create environment and agent
-        environment: gym.Env = gym.make(self.game, render_mode="rgb_array")
-        agent: algorithm.OnPolicyAlgorithm = A2C.load(self.model_file, environment)
-        vector_environment: VecEnv = agent.get_env()
+        environment: gym.Env = gym.make(self.game, render_mode="human")
+        agent: algorithm.OnPolicyAlgorithm = A2C.load(self.model_file)
 
         # Check hyperparameters
         print(agent.policy)
@@ -87,19 +88,20 @@ class ActorCriticAgent(Agent):
         print('(ent_coef): ' + str(agent.ent_coef))
 
         # Reset the environment and observe the initial state
-        observation = vector_environment.reset()
+        observation, info = environment.reset()
 
         # Play the game
-        done: bool = False
-        while not done:
+        terminated: bool = False
+        truncated: bool = False
+        while not truncated and not truncated:
             # Run the agent
             action, _states = agent.predict(observation, deterministic=True)
 
             # Perform the action on the environment and observe the new state
-            observation, reward, done, info = vector_environment.step(action)
+            observation, reward, terminated, truncated, info = environment.step(action)
 
             # Render the step
-            vector_environment.render("human")
+            environment.render()
 
         # Close the environment
-        vector_environment.close()
+        environment.close()
