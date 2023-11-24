@@ -14,5 +14,5 @@ setuptools.setup(name='actorcritic',
                                    'matplotlib~=3.7.1',
                                    'numpy~=1.25.0',
                                    'pygame~=2.1.3',
-                                   'gymnasium~=0.28.1'],
+                                   'gymnasium~=0.29.1'],
                  packages=setuptools.find_packages())
