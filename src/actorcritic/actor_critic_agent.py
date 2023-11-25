@@ -156,6 +156,9 @@ class ActorCriticAgent(Agent):
         # Save the agent
         torch.save(model.state_dict(), self.model_file)
 
+        # Close the environment
+        environment.close()
+
     def optimise(self, agent: nn.Module, optimizer: torch.optim.Optimizer, log_action_probabilities: list[Tensor],
                  rewards: list[SupportsFloat], values: list[Tensor], predicted_next_value: Tensor,
                  entropies: list[Tensor]) -> tuple[float, float, float]:
@@ -244,6 +247,9 @@ class ActorCriticAgent(Agent):
 
             # Render the step
             environment.render()
+
+        # Close the environment
+        environment.close()
 
     @staticmethod
     def shape_reward(_observation: ObsType, reward: SupportsFloat, _terminated: bool, _truncated: bool) -> \
