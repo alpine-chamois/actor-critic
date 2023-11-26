@@ -17,8 +17,9 @@ class Agent(ABC):
         pass
 
     @abstractmethod
-    def evaluate(self) -> None:
+    def evaluate(self, render: bool) -> None:
         """
         Evaluation loop
+        :param render: whether to render or not
         """
         pass

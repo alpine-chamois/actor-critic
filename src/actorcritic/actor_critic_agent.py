@@ -211,12 +211,18 @@ class ActorCriticAgent(Agent):
 
         return actor_loss.detach().numpy(), critic_loss.detach().numpy(), entropy_loss.detach().numpy()
 
-    def evaluate(self) -> None:
+    def evaluate(self, render: bool) -> None:
         """
         Evaluation loop
+        :param render: whether to render or not
         """
+        # Set render mode
+        render_mode: string = 'human'
+        if render is False:
+            render_mode = 'rgb_array'
+        
         # Create environment and agent
-        environment: gym.Env = gym.make(self.game, render_mode='human')
+        environment: gym.Env = gym.make(self.game, render_mode=render_mode)
         observations: int = environment.observation_space.shape[0]
         actions: int = environment.action_space.n
         model: nn.Module = ActorCriticModel(observations, actions)
