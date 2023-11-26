@@ -13,26 +13,13 @@ It learns to play with the same performance in the same number of steps:
 ### Stable Baselines links
 * [Reinforcement Learning Tips and Tricks](https://stable-baselines3.readthedocs.io/en/master/guide/rl_tips.html)
 
-### Getting started (Windows)
+### Getting started (Linux)
 
 __Prerequisites:__ Python 3.10 
 
-1. Create a virtual environment:
+1. Run the install script:
     ```
-    >python -m venv venv
-    >. venv/bin/activate
-    ```
-1. Install wheel:
-    ```
-    (venv) >pip install wheel
-    ```
-1. Install the local package in editable mode:
-    ```
-    (venv) >pip install -e ./src
-    ```
-1. Install dependencies:
-    ```
-    pip install -r requirements.txt
+    . install.sh
     ```
 1. Run the example:
     ```
