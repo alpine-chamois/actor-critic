@@ -13,13 +13,17 @@ It learns to play with the same performance in the same number of steps:
 ### Stable Baselines links
 * [Reinforcement Learning Tips and Tricks](https://stable-baselines3.readthedocs.io/en/master/guide/rl_tips.html)
 
-### Getting started (Linux)
+### Getting started
 
 __Prerequisites:__ Python 3.10 
 
-1. Run the install script:
+1. Run the install script (Linux):
     ```
     . install.sh
+    ```
+    or (Windows):
+    ```
+    install.bat
     ```
 1. Run the example:
     ```
