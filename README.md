@@ -12,13 +12,17 @@ And here the trained agent is playing the game unaided:
 
 See [main](https://github.com/alpine-chamois/actor-critic/tree/main) for more details.
 
-### Getting started (Linux)
+### Getting started
 
 __Prerequisites:__ Python 3.10 
 
-1. Run the install script:
+1. Run the install script (Linux):
     ```
     . install.sh
+    ```
+    or (Windows):
+    ```
+    install.bat
     ```
 1. Run the example:
     ```
