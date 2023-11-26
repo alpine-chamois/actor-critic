@@ -32,26 +32,13 @@ The A2C agent can be used to play any game as long as the size of the observatio
 
 Although A3C and PPO agents can perform better than A2C agents, they include additional complexity that makes the fundamentals of RL more difficult to understand when looking at the code. This A2C agent is designed to be a reference for how to implement a Deep RL (DRL) agent using [PyTorch](https://pytorch.org/). If you want a PPO agent, I recommend using [the implementation in Stable Baselines 3](https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html). There is a [branch of this repository](https://github.com/alpine-chamois/actor-critic/tree/stable-baselines) that shows how to implement an equivalent A2C agent using Stable Baselines 3, and to convert this agent to a PPO agent, simply replace instances of ```A2C``` with instances of ```PPO```.
 
-### Getting started (Windows)
+### Getting started (Linux)
 
 __Prerequisites:__ Python 3.10 
 
-1. Create a virtual environment:
+1. Run the install script:
     ```
-    >python -m venv venv
-    >. venv/bin/activate
-    ```
-1. Install wheel:
-    ```
-    (venv) >pip install wheel
-    ```
-1. Install the local package in editable mode:
-    ```
-    (venv) >pip install -e ./src
-    ```
-1. Install dependencies:
-    ```
-    pip install -r requirements.txt
+    . install.sh
     ```
 1. Run the example:
     ```
