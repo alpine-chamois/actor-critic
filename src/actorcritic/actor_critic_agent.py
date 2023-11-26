@@ -72,13 +72,19 @@ class ActorCriticAgent(Agent):
         # Close the environment
         environment.close()
 
-    def evaluate(self) -> None:
+    def evaluate(self, render: bool) -> None:
         """
         Evaluation loop
+        :param render: whether to render or not
         """
 
+        # Set render mode
+        render_mode: string = 'human'
+        if render is False:
+            render_mode = 'rgb_array'
+        
         # Create environment and agent
-        environment: gym.Env = gym.make(self.game, render_mode="human")
+        environment: gym.Env = gym.make(self.game, render_mode=render_mode)
         agent: algorithm.OnPolicyAlgorithm = A2C.load(self.model_file)
 
         # Check hyperparameters

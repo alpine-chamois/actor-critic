@@ -13,6 +13,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Actor-Critic')
     parser.add_argument('-t', '--train', action=argparse.BooleanOptionalAction, default=True,
                         help='train the model before evaluating')
+    parser.add_argument('-r', '--render', action=argparse.BooleanOptionalAction, default=True,
+                        help='render the game during evaluation')
     args: argparse.Namespace = parser.parse_args()
 
     # Construct agent
@@ -21,4 +23,4 @@ if __name__ == '__main__':
     # Train and evaluate
     if args.train is True:
         agent.train()
-    agent.evaluate()
+    agent.evaluate(args.render)
