@@ -26,7 +26,7 @@ And here the trained agent is playing the game unaided:
 
 ### What about playing other games?
 
-The A2C agent can be used to play any game as long as the size of the observation space and action space are set in ```actor-critic-agent.py``` and ```main.py``` is updated to correctly handle rewards. There is a [branch of this repository](https://github.com/alpine-chamois/actor-critic/tree/lunar-lander) that shows how it can be successfully trained to play the [Lunar Lander](https://gymnasium.farama.org/environments/box2d/lunar_lander/) game in Gymnasium.
+The A2C agent can be used to play any game as long as ```main.py``` is updated to initialise the agent and correctly handle rewards. There is a [branch of this repository](https://github.com/alpine-chamois/actor-critic/tree/lunar-lander) that shows how it can be successfully trained to play the [Lunar Lander](https://gymnasium.farama.org/environments/box2d/lunar_lander/) game in Gymnasium.
 
 ### Why A2C and not A3C or PPO?
 
