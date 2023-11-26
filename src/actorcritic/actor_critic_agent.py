@@ -211,12 +211,18 @@ class ActorCriticAgent(Agent):
 
         return actor_loss.detach().numpy(), critic_loss.detach().numpy(), entropy_loss.detach().numpy()
 
-    def evaluate(self) -> None:
+    def evaluate(self, render: bool) -> None:
         """
         Evaluation loop
+        :param render: whether to render or not
         """
+        # Set render mode
+        render_mode: string = 'human'
+        if render is False:
+            render_mode = 'rgb_array'
+        
         # Create environment and agent
-        environment: gym.Env = gym.make(self.game, render_mode='human')
+        environment: gym.Env = gym.make(self.game, render_mode=render_mode)
         observations: int = environment.observation_space.shape[0]
         actions: int = environment.action_space.n
         model: nn.Module = ActorCriticModel(observations, actions)
@@ -277,7 +283,7 @@ class ActorCriticAgent(Agent):
         :param episode: the episode
         :param average_cumulative_rewards: the average cumulative rewards
         """
-        sys.stdout.write('\r\x1b[')  # Clear line
+        sys.stdout.write('\r\x1b[2K')  # Clear line
         sys.stdout.write('Learning to play ' + self.game + ', average cumulative reward: ' +
                          str(math.ceil(average_cumulative_rewards[-1])) + '/' + str(self.max_cumulative_reward) +
                          ' after ' + str(episode) + ' training episodes.')
