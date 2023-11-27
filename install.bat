@@ -1,6 +1,6 @@
 REM Create a Virtual Environment
 python -m venv venv
-venv\Scripts\activate
+call venv\Scripts\activate
 REM Install Python Wheel
 pip install wheel
 REM Create the actorcritic package
