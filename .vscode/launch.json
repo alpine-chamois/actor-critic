@@ -5,11 +5,24 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "actorcritic",
+            "name": "actorcritic (Windows)",
             "type": "python",
             "request": "launch",
             "module": "actorcritic",
             "console": "integratedTerminal",
+            "python": "${workspaceFolder}/venv/Scripts/python",
+            "args": [
+                "--train",
+                "--render"
+            ]
+        },
+        {
+            "name": "actorcritic (Linux)",
+            "type": "python",
+            "request": "launch",
+            "module": "actorcritic",
+            "console": "integratedTerminal",
+            "python": "${workspaceFolder}/venv/bin/python",
             "args": [
                 "--train",
                 "--render"
