@@ -1,6 +1,6 @@
-## Advantage Actor-Critic (A2C) Reinforcement Learning (RL) Agent
+## Advantage Actor-Critic (A2C) Deep Reinforcement Learning (DRL) Agent
 
-This A2C RL agent is based on the Asynchronous A2C (A3C) agent in [Deep Reinforcement Learning in Action](https://www.manning.com/books/deep-reinforcement-learning-in-action), but with tuned hyperparameters, and without asynchronous processing.
+This A2C DRL agent is based on the Asynchronous A2C (A3C) agent in [Deep Reinforcement Learning in Action](https://www.manning.com/books/deep-reinforcement-learning-in-action), but with tuned hyperparameters, and without asynchronous processing.
 
 A2C agents combine a Deep Q-network (DQN) like that used by [DeepMind](https://www.deepmind.com/publications/playing-atari-with-deep-reinforcement-learning) with a policy network like REINFORCE. They provide direct sampling of actions from a distribution (like a policy network) whilst also supporting rapid online learning (like a DQN, but without the need for experience replay or a target network). 
 
@@ -30,7 +30,7 @@ The A2C agent can be used to play any game as long as ```main.py``` is updated t
 
 ### Why A2C and not A3C or PPO?
 
-Although A3C and PPO agents can perform better than A2C agents, they include additional complexity that makes the fundamentals of RL more difficult to understand when looking at the code. This A2C agent is designed to be a reference for how to implement a Deep RL (DRL) agent using [PyTorch](https://pytorch.org/). If you want a PPO agent, I recommend using [the implementation in Stable Baselines 3](https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html). There is a [branch of this repository](https://github.com/alpine-chamois/actor-critic/tree/stable-baselines) that shows how to implement an equivalent A2C agent using Stable Baselines 3, and to convert this agent to a PPO agent, simply replace instances of ```A2C``` with instances of ```PPO```.
+Although A3C and PPO agents can perform better than A2C agents, they include additional complexity that makes the fundamentals of DRL more difficult to understand when looking at the code. This A2C agent is designed to be a reference for how to implement a DRL agent using [PyTorch](https://pytorch.org/). If you want a PPO agent, I recommend using [the implementation in Stable Baselines 3](https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html). There is a [branch of this repository](https://github.com/alpine-chamois/actor-critic/tree/stable-baselines) that shows how to implement an equivalent A2C agent using Stable Baselines 3, and to convert this agent to a PPO agent, simply replace instances of ```A2C``` with instances of ```PPO```.
 
 ### Getting started
 
