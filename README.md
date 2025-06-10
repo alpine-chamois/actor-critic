@@ -1,4 +1,4 @@
-## Advantage Actor-Critic (A2C) Reinforcement Learning (RL) Agent
+## Advantage Actor-Critic (A2C) Deep Reinforcement Learning (DRL) Agent
 
 This [Stable Baselines A2C agent](https://stable-baselines3.readthedocs.io/en/master/modules/a2c.html) learns to play the [Cart Pole](https://gymnasium.farama.org/environments/classic_control/cart_pole/) game environment in [Gymnasium](https://gymnasium.farama.org/content/basic_usage/):
 
