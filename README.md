@@ -1,4 +1,4 @@
-## Advantage Actor-Critic (A2C) Reinforcement Learning (RL) Agent
+## Advantage Actor-Critic (A2C) Deep Reinforcement Learning (DRL) Agent
 
 This A2C agent learns to play the [Lunar Lander](https://gymnasium.farama.org/environments/box2d/lunar_lander/) game environment in [Gymnasium](https://gymnasium.farama.org/content/basic_usage/):
 
