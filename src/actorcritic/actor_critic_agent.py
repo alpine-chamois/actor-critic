@@ -96,7 +96,7 @@ class ActorCriticAgent(Agent):
                 log_action_probability = action_distribution.log_prob(action)
                 log_action_probabilities.append(log_action_probability)
 
-                # Calculate and store the entropy (use distribution API)
+                # Store the entropy
                 entropy = action_distribution.entropy()
                 entropies.append(entropy)
 
@@ -218,7 +218,7 @@ class ActorCriticAgent(Agent):
         entropy_loss: Tensor = -entropies_.sum()
 
         # Scale down the critic loss because we want the actor to learn faster than the critic
-        # Subtract the entropy as we want to encourage exploration
+        # Entropy loss is negative as we want to encourage exploration
         loss: Tensor = actor_loss + (self.critic_loss_scaling * critic_loss) + (self.entropy_coefficient * entropy_loss)
 
         # Calculate gradients
