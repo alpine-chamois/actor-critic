@@ -1,0 +1,19 @@
+[project]
+name = "actor-critic"
+version = "0.1.0"
+description = "Advantage Actor-Critic (A2C) Deep Reinforcement Learning (DRL) Agent"
+readme = "README.md"
+requires-python = "==3.12.*"
+dependencies = [
+    "gymnasium",
+    "matplotlib",
+    "numpy",
+    "pygame",
+    "torch",
+    "setuptools",
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
